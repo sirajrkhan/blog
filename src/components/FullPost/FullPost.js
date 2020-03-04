@@ -4,28 +4,41 @@ import './FullPost.css';
 
 class FullPost extends Component {
     state = {
-        loadedPost: null
+        loadedPost: null,
+        errorLog: null
     }
 
     componentDidUpdate(){
         if (this.props.id){
             if (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)){
-                axios.get('https://jsonplaceholder.typicode.com/posts/'+this.props.id)
+                axios.get('/posts/'+this.props.id)
                 .then(
                     response => {
                         this.setState({loadedPost: response.data})
                     }
                 )
+                .catch(
+                    response => {
+                        console.log('Error: '+response);
+                        this.setState({errorLog:response})
+                }
+            )    
             }
 
         }
     }
-    render () {
-        let post = <p style={{textAlign: `center`}}>Please select a Post!</p>;
 
-        if(this.props.id){
-            post = <p style={{textAlign: `center`}}>Loading...</p>;
-        }
+    deletePostHandler = () => {
+        axios.delete('/posts/'+this.props.id)
+        .then(
+            response => {
+                console.log(response);
+            }
+            )    
+    }
+    render () {
+        let postMsg = (this.props.id)?'Loading...':'Please select a Post'
+        let post = <p style={{textAlign: `center`}}>{postMsg}</p>;
 
         if(this.state.loadedPost){
             post = (
@@ -33,7 +46,7 @@ class FullPost extends Component {
                     <h1>{this.state.loadedPost.title}</h1>
                     <p>{this.state.loadedPost.body}</p>
                     <div className="Edit">
-                        <button className="Delete">Delete</button>
+                        <button className="Delete" onClick={this.deletePostHandler}>Delete</button>
                     </div>
                 </div>
             );
