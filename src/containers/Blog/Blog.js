@@ -15,7 +15,7 @@ class Blog extends Component {
     }
 
     componentDidMount(){
-        axios.get('/postsw')
+        axios.get('/posts')
         .then( response => {
             const posts = response.data.slice(3,7);
             const updatedPosts = posts.map(post => {
