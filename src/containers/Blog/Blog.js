@@ -47,8 +47,6 @@ class Blog extends Component {
                         author={post.author}
                         clicked={() => this.selectedIDHandler(post.id)} />
         })
-       
-
 
         return (
             <div>

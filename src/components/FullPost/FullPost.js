@@ -19,7 +19,7 @@ class FullPost extends Component {
                 )
                 .catch(
                     response => {
-                        console.log('Error: '+response);
+                        console.log('Error: ', response);
                         this.setState({errorLog:response})
                 }
             )    
